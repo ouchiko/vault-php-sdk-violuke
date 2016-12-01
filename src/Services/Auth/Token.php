@@ -51,7 +51,7 @@ class Token
             'body' => json_encode($body)
         ];
 
-        return $this->client->post('/v1/auth/token/create', $params)->json();
+        return $this->client->post('/v1/auth/token/create', $params);
     }
 
     /**
