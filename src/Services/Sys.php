@@ -155,6 +155,7 @@ class Sys
     public function createMount($name, array $body)
     {
         $body = OptionsResolver::resolve($body, ['type', 'description', 'config']);
+        $body = OptionsResolver::required($body, ['type']);
 
         $params = [
             'body' => json_encode($body)
