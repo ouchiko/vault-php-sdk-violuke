@@ -29,7 +29,7 @@ class Transit
 
     public function getKey($keyName)
     {
-		return $this->client->get('/transit/keys/' . urlencode($keyName));
+		return $this->client->get('/v1/transit/keys/' . urlencode($keyName));
     }
 
     public function createKey($keyName, array $body = [])
@@ -41,8 +41,50 @@ class Transit
 			'body' => json_encode($body)
 		];
 
-		return $this->client->put('/transit/keys/' . urlencode($keyName), $params);
+		return $this->client->put('/v1/transit/keys/' . urlencode($keyName), $params);
     }
 
+    public function rotateKey($keyName)
+    {
+        return $this->client->post('/v1/transit/keys/' . urlencode($keyName) . '/rotate');
+    }
 
+    public function encrypt($keyName, $plainText, array $body = [])
+    {
+        $body = OptionsResolver::resolve($body, ['context', 'nonce']);
+        $body['plaintext'] = base64_encode($plainText);
+
+        $params = [
+            'body' => json_encode($body)
+        ];
+
+        $response = $this->client->post('/v1/transit/encrypt/' . urlencode($keyName), $params);
+        return json_decode($response->getBody(), true)['data']['ciphertext'];
+    }
+
+    public function decrypt($keyName, $cipherText, array $body = [])
+    {
+        $body = OptionsResolver::resolve($body, ['context', 'nonce']);
+        $body['ciphertext'] = $cipherText;
+
+        $params = [
+            'body' => json_encode($body)
+        ];
+
+        $response = $this->client->post('/v1/transit/decrypt/' . urlencode($keyName), $params);
+        return base64_decode(json_decode($response->getBody(), true)['data']['plaintext']);
+    }
+
+    public function rewrap($keyName, $cipherText, array $body = [])
+    {
+        $body = OptionsResolver::resolve($body, ['context', 'nonce']);
+        $body['ciphertext'] = $cipherText;
+
+        $params = [
+            'body' => json_encode($body)
+        ];
+
+        $response = $this->client->post('/v1/transit/rewrap/' . urlencode($keyName), $params);
+        return json_decode($response->getBody(), true)['data']['ciphertext'];
+    }
 }
