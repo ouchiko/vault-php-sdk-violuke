@@ -1,8 +1,8 @@
 <?php
-namespace Jippi\Vault\Services;
+namespace Violuke\Vault\Services;
 
-use Jippi\Vault\Client;
-use Jippi\Vault\OptionsResolver;
+use Violuke\Vault\Client;
+use Violuke\Vault\OptionsResolver;
 
 /**
  * This service class handle data read/write

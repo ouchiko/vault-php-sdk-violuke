@@ -1,5 +1,5 @@
 <?php
-namespace Jippi\Vault;
+namespace Violuke\Vault;
 
 class OptionsResolver
 {

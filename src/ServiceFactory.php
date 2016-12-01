@@ -1,5 +1,5 @@
 <?php
-namespace Jippi\Vault;
+namespace Violuke\Vault;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Psr\Log\LoggerInterface;
@@ -7,10 +7,10 @@ use Psr\Log\LoggerInterface;
 class ServiceFactory
 {
     private static $services = [
-        'sys' => 'Jippi\Vault\Services\Sys',
-        'data' => 'Jippi\Vault\Services\Data',
-        'transit' => 'Jippi\Vault\Services\Transit',
-        'auth/token' => 'Jippi\Vault\Services\Auth\Token',
+        'sys' => 'Violuke\Vault\Services\Sys',
+        'data' => 'Violuke\Vault\Services\Data',
+        'transit' => 'Violuke\Vault\Services\Transit',
+        'auth/token' => 'Violuke\Vault\Services\Auth\Token',
     ];
 
     private $client;

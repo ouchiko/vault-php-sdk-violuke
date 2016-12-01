@@ -1,5 +1,5 @@
 <?php
-namespace Jippi\Vault;
+namespace Violuke\Vault;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\TransferException;
@@ -9,8 +9,8 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-use Jippi\Vault\Exception\ClientException;
-use Jippi\Vault\Exception\ServerException;
+use Violuke\Vault\Exception\ClientException;
+use Violuke\Vault\Exception\ServerException;
 
 class Client
 {
