@@ -18,6 +18,13 @@ class Transit
     private $client;
 
     /**
+     * Transit Path (allows different transit points)
+     *
+     * @var Transit
+     */
+    private $transitPath = "transit";
+
+    /**
      * Create a new Sys service with an optional Client
      *
      * @param Client|null $client
@@ -27,9 +34,19 @@ class Transit
         $this->client = $client ?: new Client();
     }
 
+    /**
+     * Sets an alternate transit path, defaults to 'transit'
+     *
+     * @param <string> transitPath
+     */
+    public function setTransitPath($transitPath)
+    {
+        $this->transitPath = $transitPath;
+    }
+
     public function getKey($keyName)
     {
-		return $this->client->get('/v1/transit/keys/' . urlencode($keyName));
+		return $this->client->get('/v1/'.$this->transitPath.'/keys/' . urlencode($keyName));
     }
 
     public function createKey($keyName, array $body = [])
@@ -41,12 +58,12 @@ class Transit
 			'body' => json_encode($body)
 		];
 
-		return $this->client->put('/v1/transit/keys/' . urlencode($keyName), $params);
+		return $this->client->put('/v1/'.$this->transitPath.'/keys/' . urlencode($keyName), $params);
     }
 
     public function rotateKey($keyName)
     {
-        return $this->client->post('/v1/transit/keys/' . urlencode($keyName) . '/rotate');
+        return $this->client->post('/v1/'.$this->transitPath.'/keys/' . urlencode($keyName) . '/rotate');
     }
 
     public function encrypt($keyName, $plainText, array $body = [])
@@ -58,7 +75,7 @@ class Transit
             'body' => json_encode($body)
         ];
 
-        $response = $this->client->post('/v1/transit/encrypt/' . urlencode($keyName), $params);
+        $response = $this->client->post('/v1/'.$this->transitPath.'/encrypt/' . urlencode($keyName), $params);
         return json_decode($response->getBody(), true)['data']['ciphertext'];
     }
 
@@ -71,7 +88,7 @@ class Transit
             'body' => json_encode($body)
         ];
 
-        $response = $this->client->post('/v1/transit/decrypt/' . urlencode($keyName), $params);
+        $response = $this->client->post('/v1/'.$this->transitPath.'/decrypt/' . urlencode($keyName), $params);
         return base64_decode(json_decode($response->getBody(), true)['data']['plaintext']);
     }
 
@@ -84,7 +101,7 @@ class Transit
             'body' => json_encode($body)
         ];
 
-        $response = $this->client->post('/v1/transit/rewrap/' . urlencode($keyName), $params);
+        $response = $this->client->post('/v1/'.$this->transitPath.'/rewrap/' . urlencode($keyName), $params);
         return json_decode($response->getBody(), true)['data']['ciphertext'];
     }
 }
