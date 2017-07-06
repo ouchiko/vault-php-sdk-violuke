@@ -45,6 +45,22 @@ $response = $service->method($mandatoryArgument, $someOptions);
 * Most methods return raw guzzle response, but there are some exceptions (like `$sys->sealed()` from the example above).
 
 
+Transit Examples
+--------
+
+```
+// assumes you've registered a new transit source, e.g.
+// vault mount -path myTransitPath transit
+$serviceFactory = new Violuke\Vault\ServiceFactory(
+    $options
+);
+$transit = $serviceFactory->get("transit");
+$transit->setTransitPath("myTransitPath");
+// ..etc etc
+$transit->encrypt($keyName, $valueString);
+
+```
+
 
 Examples
 --------
